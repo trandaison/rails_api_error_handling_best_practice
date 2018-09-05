@@ -3,6 +3,6 @@ class ApplicationController < ActionController::API
 
   protected
   def render_unprocessable_entity_response error, status: :unprocessable_entity
-    render json: error.record.errors, status: status
+    render json: Errors::ActiveRecordValidation.new(error.record), status: status
   end
 end
