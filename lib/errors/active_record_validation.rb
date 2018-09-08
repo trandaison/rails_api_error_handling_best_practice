@@ -1,9 +1,10 @@
 module Errors
-  class ActiveRecordValidation
+  class ActiveRecordValidation < Errors::ApplicationError
     attr_reader :record
 
     def initialize record
       @record = record
+      @errors = serialize
     end
 
     def serialize full_messages: true
@@ -13,13 +14,6 @@ module Errors
         message = messages[field].first
         ValidationErrorSerializer.new(record, field, detail, message).serialize
       end
-    end
-
-    def to_hash
-      {
-        success: false,
-        errors: serialize
-      }
     end
   end
 end
